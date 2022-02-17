@@ -88,7 +88,7 @@ def string_concat
 end
 
 def a_method
-  ""
+  :nothing
 end
 
 def method_call
@@ -257,6 +257,25 @@ def block_call
   end
 end
 
+def lambda_call
+  a = 0
+  l = ->() { :nothing }
+  n = 0
+  while(n < SCALE)
+    l.call
+    l.call
+    l.call
+    l.call
+    l.call
+    l.call
+    l.call
+    l.call
+    l.call
+    l.call
+    n += 1
+  end
+end
+
 def divmod
   n = 0
   while(n < SCALE)
@@ -332,6 +351,7 @@ UUTS = %i[
   hash_update
   hash_method
   block_call
+  lambda_call
   times_loop
   for_loop
   divmod
@@ -368,7 +388,7 @@ def tick(args)
 
   args.outputs.labels << { x: 8, y: 720 - 38, text: $fps.report }
   args.outputs.labels << { x: 8, y: 720 - 8, text: Profiler.metaprofiler.report }
-  y = 600
+  y = 630
   $p
   .sort_by { |k, p| p.avg_time }
   .each do |k, p|
