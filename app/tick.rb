@@ -356,16 +356,19 @@ $h = {
   j: 10
 }
 
+$fps = Profiler.new('Frame timer', 60)
+
 def tick(args)
-  Profiler.metaprofiler.profile_between_calls
+  $fps.profile_between_calls
 
   $i ||= 0
   profile(UUTS[$i])
   $i += 1
   $i = 0 unless $i < UUTS.length
 
+  args.outputs.labels << { x: 8, y: 720 - 38, text: $fps.report }
   args.outputs.labels << { x: 8, y: 720 - 8, text: Profiler.metaprofiler.report }
-  y = 650
+  y = 600
   $p
   .sort_by { |k, p| p.avg_time }
   .each do |k, p|
